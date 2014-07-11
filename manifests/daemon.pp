@@ -20,8 +20,8 @@ LOG_FILE=${logdir}/sc.log
     '/etc/init/sauce-connect.conf' :
       ensure => 'present',
       mode   => 0644,
-      owner  => 'root',
-      group  => 'root',      
+      owner  => 0,
+      group  => 0,      
       notify => Service['sauce-connect'],
       source => 'puppet:///modules/sauceconnect/init_sauce-connect';
 
