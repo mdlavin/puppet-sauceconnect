@@ -17,17 +17,27 @@ LOG_DIR=${logdir}
 LOG_FILE=${logdir}/sc.log
 ";
 
-    '/etc/init.d/sauce-connect' :
+    '/etc/init/sauce-connect.conf' :
       ensure => 'present',
-      mode   => 0755,
+      mode   => 0644,
+      owner  => 'root',
+      group  => 'root',      
       notify => Service['sauce-connect'],
-      source => 'puppet:///modules/sauceconnect/init.d_sauce-connect';
+      source => 'puppet:///modules/sauceconnect/init_sauce-connect';
+
+    # Create a symlink to /etc/init/*.conf in /etc/init.d, because Puppet 2.7 looks 
+    # there incorrectly (see: http://projects.puppetlabs.com/issues/14297)
+    '/etc/init.d/sauce-connect':
+      ensure => link,
+      target => '/lib/init/upstart-job';
   }
 
   service {
     'sauce-connect' :
       ensure     => running,
       hasrestart => true,
-      hasstatus  => true;
+      hasstatus  => true,
+      provider   => 'upstart',
+      require    => File['/etc/init.d/sauce-connect'];
   }
 }
