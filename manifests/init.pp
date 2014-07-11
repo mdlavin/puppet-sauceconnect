@@ -1,4 +1,4 @@
-class sauceconnect($username="", $apikey="") {
+class sauceconnect($username="", $apikey="", $tunnel_identifier="") {
   $dir = '/usr/share/sauce'
 
   file {
@@ -15,6 +15,7 @@ class sauceconnect($username="", $apikey="") {
     "sauceconnect::${osfamily}" : ;
     'sauceconnect::daemon' :
       username => $username,
-      apikey   => $apikey;
+      apikey   => $apikey,
+      tunnel_identifier   => $tunnel_identifier;
   }
 }
