@@ -1,4 +1,4 @@
-class sauceconnect::daemon($username, $apikey) {
+class sauceconnect::daemon($username, $apikey, $tunnel_identifier='') {
   $logdir = '/var/log/sauce'
 
   file {
@@ -13,6 +13,7 @@ API_USER=${username}
 API_KEY=${apikey}
 USERNAME=
 GROUP=
+TUNNEL_IDENTIFIER=${tunnel_identifier}
 LOG_DIR=${logdir}
 LOG_FILE=${logdir}/sc.log
 ";
