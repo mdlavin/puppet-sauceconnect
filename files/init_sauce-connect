@@ -23,10 +23,12 @@ script
     # If start-stop-daemon doesn't exist then this is probably a RedHat machine so don't
     # use the start-stop-daemon helper
     DAEMON_USER=""
-    [ -n "$USERNAME" ] && DAEMON_USER="--user $USERNAME"
-    DAEMON_GROUP=""
-    [ -n "$GROUP" ] && DAEMON_GROUP="--group $GROUP"
-    sudo $DAEMON_USER $DAEMON_GROUP $DAEMON $DAEMON_ARGS
+    if [ -n "$USERNAME" ]; then
+      echo "Switching users or groups is not supported on RedHat" >&2
+      exit 1
+    else
+      $DAEMON $DAEMON_ARGS
+    fi
   fi
 end script
 
